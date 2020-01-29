@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run prod",
+    "server": "node ./api/start.js",
+    "server:prod": "node ./api/start.js",
+    "dev": "NODE_ENV=development npm-run-all server",
+    "prod": "NODE_ENV=production npm-run-all server:prod",
+    "watch": "nodemon",
+    "lint-fix": "eslint ./ --fix"
   },
   "repository": {
     "type": "git",
