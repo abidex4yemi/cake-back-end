@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
-const { mongoURI } = require('../config/keys');
+const userSchema = require('./user');
+const { mongoURI, dbName } = require('../config/keys');
 
 const connection = mongoose.createConnection(mongoURI, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: 'cake-userDb'
+  dbName: dbName
 });
+
+connection.model('User', userSchema);
 
 module.exports = connection;
