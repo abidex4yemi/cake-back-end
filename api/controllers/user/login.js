@@ -59,6 +59,7 @@ const login = async (req, res, next) => {
 
     // Remove user password from user object
     user.password = undefined;
+    user.securityQuestions = undefined;
 
     return res.status(OK).json(
       handleSuccessResponse({
