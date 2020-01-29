@@ -1,3 +1,4 @@
 module.exports = {
-  createUserProfile: require('./createUserProfile')
+  createUserProfile: require('./createUserProfile'),
+  login: require('./login')
 };
