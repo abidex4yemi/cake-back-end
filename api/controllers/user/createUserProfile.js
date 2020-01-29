@@ -45,6 +45,7 @@ const createUserProfile = async (req, res, next) => {
     const user = await User.create(req.body);
 
     user.password = undefined;
+    user.securityQuestions = undefined;
 
     const payload = {
       id: user._id
