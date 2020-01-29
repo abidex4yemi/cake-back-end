@@ -11,6 +11,7 @@ const connection = require('./models');
 const { NOT_FOUND } = require('./util/error');
 const customErrorHandler = require('./middleware/customErrorHandler');
 const { handleSuccessResponse, OK } = require('./util/success');
+const userRouter = require('./routes/userRouter');
 
 const app = express();
 
@@ -37,6 +38,8 @@ app.get('/', (req, res) =>
     })
   )
 );
+
+app.use('/api/v1', userRouter);
 
 // Handle invalid request
 app.all('*', (req, res) =>

@@ -7,14 +7,12 @@ const joiValidate = require('../util/validate');
 const userSchema = Joi.object().keys({
   firstName: Joi.string()
     .regex(/^[a-zA-Z]+$/)
-    .error(() => 'First name is required and must be alphabet')
     .max(100)
     .label('First name')
     .trim()
     .required(),
   lastName: Joi.string()
     .regex(/^[a-zA-Z]+$/)
-    .error(() => 'Last name is required and must be alphabet')
     .max(100)
     .label('Last name')
     .trim()
@@ -41,6 +39,7 @@ const userSchema = Joi.object().keys({
         answer: Joi.string().required()
       })
     )
+    .length(3)
     .required()
 });
 
