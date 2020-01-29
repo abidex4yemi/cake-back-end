@@ -56,7 +56,7 @@ class Auth {
         return next(
           createError({
             status: UNAUTHORIZED,
-            error: 'The token you provided is invalid'
+            message: 'The token you provided is invalid'
           })
         );
       }
