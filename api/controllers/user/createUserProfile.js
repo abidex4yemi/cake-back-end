@@ -67,7 +67,6 @@ const createUserProfile = async (req, res, next) => {
       })
     );
   } catch (error) {
-    console.log(error);
     return next(
       createError({
         message: 'Could not create new user profile',
