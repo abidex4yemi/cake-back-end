@@ -113,4 +113,3 @@
 - ExpressJS
 - React
 - Redux
-- styled-components
