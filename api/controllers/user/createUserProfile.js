@@ -67,10 +67,17 @@ const createUserProfile = async (req, res, next) => {
       })
     );
   } catch (error) {
-    return next(
-      createError({
-        message: 'Could not create new user profile',
-        status: GENERIC_ERROR
+    // return next(
+    //   createError({
+    //     message: 'Could not create new user profile',
+    //     status: GENERIC_ERROR
+    //   })
+    // );
+
+    return res.status(GENERIC_ERROR).json(
+      handleSuccessResponse({
+        message: 'errrrooooos',
+        data: error
       })
     );
   }
