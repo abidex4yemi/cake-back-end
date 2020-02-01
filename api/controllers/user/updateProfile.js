@@ -24,23 +24,33 @@ const updateProfile = async (req, res, next) => {
       );
     }
 
-    const user = await User.findOne({ _id: req.user.id }).select('+password');
+    const existingUserRecord = await User.findOne({
+      _id: userIsLoggedIn.id
+    }).select('+password');
 
-    req.body.securityQuestions = user.securityQuestions;
-    req.body.password = user.password;
+    if (!existingUserRecord) {
+      return next(
+        createError({
+          status: UNAUTHORIZED,
+          message: 'Unauthorized!, you have to login'
+        })
+      );
+    }
 
-    const updatedProfile = await User.findOneAndUpdate(
-      { _id: req.user.id },
-      req.body
-    );
+    req.body.securityQuestions = existingUserRecord.securityQuestions;
+    req.body.password = existingUserRecord.password;
 
-    updatedProfile.password = undefined;
-    updatedProfile.securityQuestions = undefined;
+    await User.updateOne({ _id: userIsLoggedIn.id }, req.body);
+
+    delete req.body.securityQuestions;
+    delete req.body.password;
 
     return res.status(CREATED).json(
       handleSuccessResponse({
         message: 'Profile updated successfully',
-        data: updatedProfile
+        data: {
+          user: req.body
+        }
       })
     );
   } catch (error) {
