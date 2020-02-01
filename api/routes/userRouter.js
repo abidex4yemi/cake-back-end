@@ -19,4 +19,9 @@ userRouter
     userController.updateProfile
   );
 
+// Note: this requires email as a query
+userRouter
+  .route('/users/security-questions')
+  .get(userController.getUserSecurityQuestions);
+
 module.exports = userRouter;
