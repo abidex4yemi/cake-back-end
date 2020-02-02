@@ -15,6 +15,8 @@
 - Open the repository with your code editor
   `develop` is the default branch and contains all full the code`
 - Setup `.env => checkout sample (.env.example) in the codebase` for environment variable
+- Here's an example of `MONGO_URI` on Atlas i used for easy app set up
+- `mongodb+srv://<username>:<password>@cluster-585-ex-ex.mongodb.net/test?retryWrites=true&w=majority`
 - Run `npm install` to install all dependencies
 - Type `npm run watch` to get the development server running
 
