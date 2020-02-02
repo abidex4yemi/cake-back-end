@@ -35,7 +35,7 @@ const createUserProfile = async (req, res, next) => {
       ({ question, answer }) => {
         return {
           question,
-          answer: hashHelper.hash(answer.trim())
+          answer: hashHelper.hash(answer.trim().toLowerCase())
         };
       }
     );

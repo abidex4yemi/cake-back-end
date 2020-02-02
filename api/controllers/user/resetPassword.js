@@ -40,7 +40,10 @@ const resetPassword = async (req, res, next) => {
       for (let existingAnswer of existingUserRecord.securityQuestions) {
         if (`${userProvidedAnswer.id}` === `${existingAnswer._id}`) {
           await hashHelper
-            .verifyHash(userProvidedAnswer.answer, existingAnswer.answer)
+            .verifyHash(
+              userProvidedAnswer.answer.trim().toLowerCase(),
+              existingAnswer.answer
+            )
             .then((answerMatch) => {
               if (answerMatch) {
                 correctAnswers.push(answerMatch);
