@@ -13,16 +13,18 @@
 - Clone the repo by clicking the green clone or download button to copy the url on github
 - In your teminal, run `git clone [insert URL copied from first step]`
 - Open the repository with your code editor
-- Checkout the `develop` branch using `git checkout develop`
+  `develop` is the default branch and contains all full the code`
 - Setup `.env => checkout sample (.env.example) in the codebase` for environment variable
 - Run `npm install` to install all dependencies
-- Type `npm run watch` to get the development server running on the front-end
+- Type `npm run watch` to get the development server running
 
 ### Authentication
 
 ## Signup
 
-`POST https://cake-user-backend.herokuapp.com/api/v1/signup`
+`POST http://localhost:2020/api/v1/signup`
+
+## Sign up Request body example
 
 ```js
   {
@@ -51,9 +53,11 @@
 }
 ```
 
-`POST https://cake-user-backend.herokuapp.com/api/v1/login`
-
 ## Login
+
+`POST http://localhost:2020/api/v1/login`
+
+## Login Request body example
 
 ```js
 {
@@ -62,35 +66,62 @@
 }
 ```
 
-`POST https://cake-user-backend.herokuapp.com/api/v1/profile`
+## Note query params of `email` is required
 
-## Login
+`GET http://localhost:2020/api/v1/users/security-questions?email=example.com`
+
+## Get user security questions
+
+## Response example
 
 ```js
 {
-    "firstName": "",
-    "lastName": "",
-    "email": "",
-    "avatar": "",
-    "phoneNumber": "",
-    "address": "",
-    "dateOfBirth": ""
+    "success": true,
+    "message": "Security questions three(3)",
+    "body": {
+        "securityQuestions": [
+            {
+                "question": "What is your oldest sibling’s middle name?",
+                "_id": "5e3586b7dd007a003a923572"
+            },
+            {
+                "question": "What is your car’s license plate number?",
+                "_id": "5e358cb7dd008a003a943573"
+            },
+            {
+                "question": "What was your first car’s make and model?",
+                "_id": "5e358c67dd027a003a943574"
+            }
+        ]
+    }
 }
 ```
 
-`GET https://cake-user-backend.herokuapp.com/api/v1/logout`
+`PUT http://localhost:2020/api/v1/user/reset-password`
 
-## Login
+## Reset-password
 
 ```js
 {
-    "firstName": "",
-    "lastName": "",
+    "newPassword": "",
     "email": "",
-    "avatar": "",
-    "phoneNumber": "",
-    "address": "",
-    "dateOfBirth": ""
+    "securityAnswers": [
+            {
+                "question": "put in returned question from security questions above",
+                "answer": "put in user answer",
+                "id": "put question id"
+            },
+            {
+                "question": "put in returned question from security questions above",
+                "answer": "put in user answer",
+                "id": "put question id"
+            },
+            {
+                "question": "put in returned question from security questions above",
+                "answer": "put in user answer",
+                "id": "put question id"
+            }
+        ]
 }
 ```
 
@@ -106,6 +137,7 @@
 - Users can **login**
 - Users can **view their profile**
 - Users can **Update their profile**
+- Users can **reset their password**
 - Users can **log out**
 
 ## Technologies
