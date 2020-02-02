@@ -1,6 +1,12 @@
 const db = require('../../models');
 const { handleSuccessResponse, CREATED } = require('../../util/success');
-const { createError, GENERIC_ERROR } = require('../../util/error');
+const {
+  createError,
+  GENERIC_ERROR,
+  NOT_FOUND,
+  BAD_REQUEST
+} = require('../../util/error');
+const hashHelper = require('../../util/hashHelper');
 
 const { User } = db.models;
 
@@ -13,50 +19,67 @@ const { User } = db.models;
  */
 const resetPassword = async (req, res, next) => {
   try {
-    const userIsLoggedIn = req.user;
+    const { email, newPassword, securityAnswers } = req.body;
 
-    if (!userIsLoggedIn) {
-      return next(
-        createError({
-          status: UNAUTHORIZED,
-          message: 'Unauthorized!, you have to login'
-        })
-      );
-    }
-
-    const existingUserRecord = await User.findOne({
-      _id: userIsLoggedIn.id
-    }).select('+password');
+    const existingUserRecord = await User.findOne({ email });
 
     if (!existingUserRecord) {
       return next(
         createError({
-          status: UNAUTHORIZED,
-          message: 'Unauthorized!, you have to login'
+          message: 'No user account with this email',
+          status: NOT_FOUND
         })
       );
     }
 
-    req.body.securityQuestions = existingUserRecord.securityQuestions;
-    req.body.password = existingUserRecord.password;
+    const correctAnswers = [];
 
-    await User.updateOne({ _id: userIsLoggedIn.id }, req.body);
+    // Todo: O(n^2) i need to refactor this code for better performance
+    // Todo: this is a first pass solution
+    for (let userProvidedAnswer of securityAnswers) {
+      for (let existingAnswer of existingUserRecord.securityQuestions) {
+        if (`${userProvidedAnswer.id}` === `${existingAnswer._id}`) {
+          await hashHelper
+            .verifyHash(userProvidedAnswer.answer, existingAnswer.answer)
+            .then((answerMatch) => {
+              if (answerMatch) {
+                correctAnswers.push(answerMatch);
+              }
+            });
+        }
+      }
+    }
 
-    delete req.body.securityQuestions;
-    delete req.body.password;
+    // check if any of the answer is wrong
+    if (correctAnswers.length < 3) {
+      return next(
+        createError({
+          message: 'Please provide valid security questions and answers',
+          status: BAD_REQUEST
+        })
+      );
+    }
+
+    // Hash new password
+    existingUserRecord.password = hashHelper.hash(newPassword);
+
+    await User.updateOne({ _id: existingUserRecord._id }, existingUserRecord);
+
+    existingUserRecord.securityQuestions = undefined;
+    existingUserRecord.password = undefined;
 
     return res.status(CREATED).json(
       handleSuccessResponse({
-        message: 'Profile updated successfully',
+        message: 'Password reset successful',
         data: {
-          user: req.body
+          user: existingUserRecord
         }
       })
     );
   } catch (error) {
     return next(
       createError({
-        message: 'Could not update user profile',
+        message: 'Could not reset user password',
         status: GENERIC_ERROR
       })
     );

@@ -41,7 +41,7 @@ const getUserSecurityQuestions = async (req, res, next) => {
     }
 
     const securityQuestions = userExist.securityQuestions.map(
-      (securityQuestion) => securityQuestion.question
+      ({ question, _id }) => ({ question, _id })
     );
 
     return res.status(OK).json(
