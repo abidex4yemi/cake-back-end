@@ -28,15 +28,27 @@ const userSchema = Joi.object().keys({
     .label('Email')
     .trim()
     .required(),
-  avatar: Joi.string().required(),
-  phoneNumber: Joi.string().required(),
-  address: Joi.string().required(),
-  dateOfBirth: Joi.string().required(),
+  avatar: Joi.string()
+    .trim()
+    .required(),
+  phoneNumber: Joi.string()
+    .trim()
+    .required(),
+  address: Joi.string()
+    .trim()
+    .required(),
+  dateOfBirth: Joi.string()
+    .trim()
+    .required(),
   securityQuestions: Joi.array()
     .items(
       Joi.object().keys({
-        question: Joi.string().required(),
-        answer: Joi.string().required()
+        question: Joi.string()
+          .trim()
+          .required(),
+        answer: Joi.string()
+          .trim()
+          .required()
       })
     )
     .length(3)

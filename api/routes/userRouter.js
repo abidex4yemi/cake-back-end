@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('../controllers/user');
 const validateCreateProfileData = require('../middleware/validateCreateProfileData');
 const validateUpdateProfileData = require('../middleware/validateUpdateProfileData');
+const validateResetPassword = require('../middleware/validateResetPassword');
 const validateLoginData = require('../middleware/validateLoginData');
 const auth = require('../util/auth');
 
@@ -18,5 +19,14 @@ userRouter
     validateUpdateProfileData,
     userController.updateProfile
   );
+
+// Note: this requires email as a query
+userRouter
+  .route('/users/security-questions')
+  .get(userController.getUserSecurityQuestions);
+
+userRouter
+  .route('/user/reset-password')
+  .put(validateResetPassword, userController.resetPassword);
 
 module.exports = userRouter;

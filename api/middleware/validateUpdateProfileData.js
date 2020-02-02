@@ -22,10 +22,18 @@ const userSchema = Joi.object().keys({
     .label('Email')
     .trim()
     .required(),
-  avatar: Joi.string().required(),
-  phoneNumber: Joi.string().required(),
-  address: Joi.string().required(),
-  dateOfBirth: Joi.string().required()
+  avatar: Joi.string()
+    .trim()
+    .required(),
+  phoneNumber: Joi.string()
+    .trim()
+    .required(),
+  address: Joi.string()
+    .trim()
+    .required(),
+  dateOfBirth: Joi.string()
+    .trim()
+    .required()
 });
 
 /**
