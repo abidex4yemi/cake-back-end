@@ -1,4 +1,4 @@
-# Basic user auth application
+# Basic user auth/landing page application
 
 ## Link to deployed App
 
@@ -20,7 +20,7 @@
 
 ### Authentication
 
-## Signup
+## Sign up
 
 `POST http://localhost:2020/api/v1/signup`
 
@@ -50,6 +50,24 @@
             "answer": ""
         }
     ]
+}
+```
+
+## Sign up
+
+`PUT http://localhost:2020/api/v1/profile`
+
+## Update profile Request body example
+
+```js
+  {
+    "firstName": "",
+    "lastName": "",
+    "email": "",
+    "avatar": "",
+    "phoneNumber": "",
+    "address": "",
+    "dateOfBirth": "",
 }
 ```
 
