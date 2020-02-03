@@ -15,6 +15,7 @@
 - Open the repository with your code editor
   `develop` is the default branch and contains all full the code`
 - Setup `.env => checkout sample (.env.example) in the codebase` for environment variable
+- Quick note if using MongoDb Atlas you have to `Whitelist IP address` on `Network access` tab `click add ip address` and `add current ip address` or `allow access from anywhere` tab for mongoDb to give access to the app and connect to the db
 - Here's an example of `MONGO_URI` on Atlas i used for easy app set up
 - `mongodb+srv://<username>:<password>@cluster-585-ex-ex.mongodb.net/test?retryWrites=true&w=majority`
 - Run `npm install` to install all dependencies
